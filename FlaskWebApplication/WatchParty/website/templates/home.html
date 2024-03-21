@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}    
+
+{% block content %}
+<!--This Home page acts as the "room" that users will join to watch videos and chat together
+It is named home because it is the repurposed home page of the original website
+connectUsers.html connects users to the room or "home page" where the socket connections will be made 
+-->
+
+<br/>
+
+<!--The form and div below are where the user inputs the youtube link to choose what they would like to watch
+An iframe is used to display the video to the user
+The form is used for the video link-->
+
+<h1>Watch Youtube Video</h1>
+
+
+<form method = "POST" id = "video_form">
+    <input type="text" name="video_url" id = "video_url" placeholder="Enter Youtube Video URL" required>
+    <button type = "submit">Watch This</button>
+</form>
+
+<div id = videoContainer>
+
+</div>
+
+<div id = videoContainer2>
+
+</div>
+<!--This is no longer being used but will be kept in case we decided to change that 11/7-->
+<div>
+    {% if video_id %}
+    <iframe width ="560" height="315" src="https://www.youtube.com/embed/{{ video_id }}" framborder="0" allowfullscreen></iframe>
+    {% endif %}
+</div>
+    
+
+
+    <br/>
+    <div class = "chatbox">
+    <h1>Room Code: {{code}}</h1>
+    <div class = "message-box" id="chat-box" style="border: 1px solid #5b5b5b; height: 300px; overflow-y: scroll;">
+
+    <div class = "messages" id = "messages">
+        
+        
+    
+    </div>
+</div>
+    <div class = "input">
+        <input type="text" rows ="3" placeholder="Type a message..." name = "message" id="message">
+        <button type = "button" id="send-button" onClick="sendMessage()">Send</button>
+    </div>
+</div>
+
+    <script type = "text/javascript">
+        
+        var socketio = io();
+
+        
+        //Beginning of message handling
+        const messages = document.getElementById("messages"); //This retrieves data with an id of "messages" which are the messages users will input
+        
+        //This is where the message is created and put onto the HTML page
+        const createMessage = (name, msg) => {
+        
+            const content = `
+            <div class = "text">
+                <span>
+
+                    <strong>${name}</strong>: ${msg}
+                </span>
+                <span class ="muted">
+                    ${new Date().toLocaleString()} 
+
+                </span>
+            </div>
+            `;
+            messages.innerHTML += content;
+        };
+        
+        socketio.on("message", (data) => {
+            createMessage(data.name, data.message);     //this calls the function to create a message
+        });
+
+
+
+        const sendMessage = () => {
+            const message = document.getElementById("message");
+            if (message.value == "") return;
+            socketio.emit("message", {data: message.value });   //this calls the function above that listens for message
+            message.value= "";
+        };  
+        //End of message handling 
+
+        
+
+        /*
+        TBeginning of handling the user entering a new video ID
+        */
+        document.getElementById("video_form").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const newVideoUrl = document.getElementById("video_url").value;
+            if (newVideoUrl) {
+                
+                socketio.emit("insertVideo", { videoUrl: newVideoUrl });
+                socketio.emit("connectToVideoServer") //IP will need to be passed in as data
+            }
+
+          
+        });
+
+
+       socketio.on('videoIframe', (iframe) =>{
+        document.getElementById('videoContainer').innerHTML = iframe;
+       });
+
+       socketio.on('downloadedVideoIframe', (iframe2) =>{
+        //document.getElementById('videoContainer2').innerHTML = iframe2;
+       });
+       //Ending of handling user changing video 
+    
+    </script>
+
+    {% for msg in messages %}
+
+        <!--This function allows us to keep chat history when refreshing-->
+        <script type = "text/javascript">
+            createMessage(" {{ msg.name }} ", "{{msg.message}}");
+        </script>
+    {% endfor %}
+{% endblock %}
+
+
+

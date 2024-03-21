@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}    
+
+{% block content %}
+<!--This Home page acts as the "room" that users will join to watch videos and chat together
+It is named home because it is the repurposed home page of the original website
+connectUsers.html connects users to the room or "home page" where the socket connections will be made 
+-->
+<h1>This is the home page :D</h1>       <!--This will only show up for home page (this Jinja templating is very usefuljj)-->
+<br/>
+
+<!--The form and div below are where the user inputs the youtube link to choose what they would like to watch
+An iframe is used to display the video to the user
+The form is used for the video link-->
+<h1>Watch Youtube Video</h1>
+<form method ="POST">
+    <input type="text" name="video_url" placeholder="Enter Youtube Video URL" required>
+    <button type = "submit">Watch This</button>
+</form>
+<div>
+    {% if video_id %}
+
+    <iframe width ="560" height="315" src="https://www.youtube.com/embed/{{ video_id }}" framborder="0" allowfullscreen></iframe>
+    {% endif %}
+</div>
+
+    <br/>
+    
+    <h1>User Chat {{room}}</h1>
+    <div id="chat-box" style="border: 1px solid #000; height: 300px; overflow-y: scroll;"></div>
+
+    <div class = "messages" id = "messages">
+        
+        
+    
+    </div>
+    <div class = "input">
+        <input type="text" rows ="3" placeholder="Type a message..." name = "message" id="message">
+        <button type = "button" id="send-button" onClick="sendMessage()">Send</button>
+    </div>
+    
+    <script type = "text/javascript">
+        var socketio = io();
+
+        const sendMessage = () => {
+        console.log("send");
+        };  
+    </script>
+
+{% endblock %}
+
+
+

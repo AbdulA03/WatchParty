@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    
+    <style>
+    body, h1, h2, h3, h4, h5, h6 { font-family: "Montserrat", sans-serif; }
+    .w3-sidebar { width: 120px; background: #222; }
+    #main { margin-left: 120px; }
+    @media only screen and (max-width: 600px) { #main { margin-left: 0; } }
+
+    </style>
+
+    <script>function deleteNote(noteId) {
+        fetch("/delete-note", {
+            method: "POST", 
+            body: JSON.stringify({ noteId: noteId }),
+        }).then((_res) => {
+            window.location.href = "/";
+        });
+    }</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+    <title>{% block title %}Home{% endblock %}</title>
+</head>
+<body class="w3-black">
+   
+   
+    <!-- Sidebar -->
+    <nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center" style="width:120px; top: 0; bottom: 0; left: 0; position: fixed; z-index: 1;">
+        {% if user.is_authenticated %}
+        <a href="/" class="w3-bar-item w3-button w3-padding-large w3-black">
+            <i class="fa fa-home w3-xxlarge"></i>
+            <p>HOME</p>
+        </a>
+        <a href="/logout" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+            <i class="fa fa-sign-out w3-xxlarge"></i>
+            <p>LOGOUT</p>
+        </a>
+        {% else %}
+        <a href="/login" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+            <i class="fa fa-sign-in w3-xxlarge"></i>
+            <p>LOGIN</p>
+        </a>
+        <a href="/sign-up" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+            <i class="fa fa-user-plus w3-xxlarge"></i>
+            <p>SIGN UP</p>
+        </a>
+        {% endif %}
+    </nav>
+
+    <!-- Page Content -->
+    <div id="main" style="margin-left: 120px;">
+        <div class="logo-container" style="display: flex; justify-content: center; align-items: center;">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" style="max-width: 400px; height: auto;">
+          </div>      
+    
+        <div class="container main-content">
+            {% block content %}     
+            {% endblock %}
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div style="max-width:600px; margin:auto; padding: 20px 0;">
+        <footer style="text-align: center; padding-left: 90px;"> <!-- Adjust the padding-left value as needed -->
+            <p>© 2023 WatchParty. All rights reserved.</p>
+            <p>Founded by Joshua Flores, Thanh Thai, Abdul Abdulnabi</p>
+        </footer>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='index.js') }}"></script>
+</body>
+</html>

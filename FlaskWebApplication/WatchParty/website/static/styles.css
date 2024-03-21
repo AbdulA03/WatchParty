@@ -1,0 +1,119 @@
+#video_form {
+    background-color: #222; /* matching the sidebar color */
+    padding: 16px;
+    color: white;
+}
+
+#video_form input, #video_form button {
+    background-color: #000; /* Dark background for input/button */
+    color: white;
+    border: none;
+}
+
+/* Style adjustments for the chatbox */
+.chatbox {
+    background-color: #222; /* matching the sidebar color */
+    padding: 16px;
+    color: white;
+}
+
+.chatbox #chat-box {
+    border-color: #5b5b5b;
+}
+
+.chatbox #message, .chatbox #send-button {
+    background-color: #000; /* Dark background for input/button */
+    color: white;
+    border: none;
+}
+
+/* Adjust the height of the message box if needed */
+.chatbox .messages {
+    height: 300px; /* Example height, adjust as needed */
+    overflow-y: scroll;
+}
+
+iframe {
+    display: block; /* Make sure iframe is a block-level element */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+
+
+/*
+*/
+
+.content{
+    display: flex;
+    align-items: center;
+    align-items: center;
+
+}
+
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.join {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+
+}
+
+.create-btn{
+    width: 100%;
+
+}
+
+.message-box{
+    border-color: black;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: whitesmoke;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.messages{
+    overflow-y: scroll;
+    flex: 1;
+    width: 100%;
+}
+
+.inputs{
+    padding: 10px;
+    display: flex;
+}
+
+h2{
+    text-align: center;
+}
+
+#message{
+    flex: 1;
+}
+
+.text{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 10px;
+    padding-right: 10px;
+
+}
+
+.muted{
+    font-size: 10px;
+    color: darkgray;
+}
